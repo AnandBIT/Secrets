@@ -1,0 +1,29 @@
+body {
+  background-color: #E8ECEF;
+}
+
+.centered {
+  padding-top: 200px;
+  text-align: center;
+}
+
+.secret-text {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #000;
+}
+
+.register,
+.login {
+  width: 30%;
+}
+
+@media (max-width: 600px) {
+
+  .register,
+  .login {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+}
