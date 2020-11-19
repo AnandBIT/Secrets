@@ -1,11 +1,12 @@
 //jshint esversion:6
-require("dotenv").config()
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 
+const md5 = require("md5");
 const bcrypt = require('bcrypt');
 const saltRounds = 13;
 
@@ -45,7 +46,7 @@ app.route("/register")
     })
 
     .post(function (req, res) {
-        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+        bcrypt.hash(md5(req.body.password), saltRounds, function (err, hash) {
             const newUser = new User({
                 email: req.body.username,
                 password: hash
@@ -69,7 +70,7 @@ app.route("/login")
             email: req.body.username,
         }, function (err, foundUser) {
             if (foundUser) {
-                bcrypt.compare(req.body.password, foundUser.password, function (err, result) {
+                bcrypt.compare(md5(req.body.password), foundUser.password, function (err, result) {
                     if (result === true)
                         res.render("secrets");
                     else
