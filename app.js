@@ -27,19 +27,21 @@ app.use(bodyParser.urlencoded({
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-app.use(session({
+const sess = {
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
         maxAge: 600000,
     }
-}));
+};
 
 if (app.get('env') === 'production') {
     // app.set('trust proxy', 1); // trust first proxy
-    req.session.cookie.secure = true; // serve secure cookies
+    sess.cookie.secure = true; // serve secure cookies
   }
+
+app.use(session(sess));
 
 app.use(passport.initialize());
 app.use(passport.session());
