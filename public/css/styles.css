@@ -9,7 +9,13 @@ body {
 
 .secret-text {
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
+  color: #fff;
+  background-color: #000;
+}
+
+.redirection-text {
+  font-size: 1.3rem;
   color: #fff;
   background-color: #000;
 }

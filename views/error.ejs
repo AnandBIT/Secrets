@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+    <div class="jumbotron text-center">
+        <div class="container">
+            <h1 class="font-weight-light mb-4"><%= message %></h1>
+            <p class="redirection-text py-2">Redirecting back to the Registration page in <span class="timer">5</span>s.</p>
+        </div>
+    </div>
+    <script>
+        setTimeout(function () {
+            window.location.pathname = "/register";
+        }, 5500);
+
+        let timeLeft = 4;
+
+        setTimeout(function () {
+            setInterval(function () {
+                document.querySelector(".timer").textContent = timeLeft;
+                timeLeft--;
+            }, 1000);
+        }, 200);
+    </script>
+
+<%- include('partials/footer') %>
