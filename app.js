@@ -1,5 +1,5 @@
 //jshint esversion:6
-require('dotenv').config();
+// require('dotenv').config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -42,10 +42,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/userDB", {
+mongoose.connect("mongodb+srv://ansAnand:Qwerty@Abhi@cluster0-nfl69.mongodb.net/userDB", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+// mongoose.connect("mongodb://localhost:27017/userDB", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
 mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema({
@@ -237,6 +242,10 @@ app.route("/login")
     });
 
 
-app.listen(3000, function () {
-    console.log("The server has started running on port 3000");
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+}
+app.listen(port, function () {
+    console.log("The server has started running");
 });
