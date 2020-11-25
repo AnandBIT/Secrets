@@ -1,5 +1,5 @@
 //jshint esversion:6
-// require('dotenv').config();
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -33,16 +33,18 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 600000,
-        // httpOnly: false // Vulnerable, as the cookie can be accessed in the browser's console by typing document.cookie;
-        // secure: true
-    },
-    // name: "User's session I'd"
+    }
 }));
+
+if (app.get('env') === 'production') {
+    // app.set('trust proxy', 1); // trust first proxy
+    session.cookie.secure = true; // serve secure cookies
+  }
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://ansAnand:Qwerty@Abhi@cluster0-nfl69.mongodb.net/userDB", {
+mongoose.connect(process.env.MONGODB_ATLAS + "/userDB", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -82,6 +84,7 @@ passport.use(new GoogleStrategy({
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: "https://secret-stack.herokuapp.com/auth/google/secrets"
         // userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
+        // callbackURL: "http://localhost:3000/auth/google/secrets"
     },
     function (accessToken, refreshToken, profile, cb) {
         // console.log(profile);
