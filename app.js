@@ -51,14 +51,9 @@ mongoose.set("useCreateIndex", true);
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
-    googleId: String
-});
-
-const secretSchema = new mongoose.Schema({
-    name: String,
+    googleId: String,
     secrets: [String]
 });
-const Secret = mongoose.model("SECRET", secretSchema);
 
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
@@ -119,15 +114,19 @@ app.get('/auth/google/secrets',
 app.get("/secrets", function (req, res) {
     if (req.isAuthenticated()) {
 
-        Secret.findOne({
-            name: "USER SECRETS"
-        }, function (err, foundDoc) {
+        User.find({
+            "secrets": {
+                $ne: null
+            }
+        }, function (err, foundUsers) {
             if (err) {
                 console.log(err);
             } else {
-                res.render("secrets", {
-                    secrets: foundDoc.secrets
-                });
+                if (foundUsers) {
+                    res.render("secrets", {
+                        usersWithSecrets: foundUsers
+                    });
+                }
             }
         });
         // console.log(req.session.id);
@@ -152,28 +151,23 @@ app.route("/submit")
 
     .post(function (req, res) {
         const submittedSecret = req.body.secret;
-
-        Secret.findOne({
-            name: "USER SECRETS"
-        }, function (err, foundDoc) {
-            if (err) {
-                console.log(err);
-            } else if (!foundDoc) {
-                const newSecret = new Secret({
-                    name: "USER SECRETS",
-                    secrets: ["This is a secret that this website is built by a human 😂"]
-                });
-                newSecret.save(function (err) {
-                    if (!err) {
-                        res.redirect("/secrets");
+        User.findById(
+            req.user._id,
+            function (err, foundUser) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (foundUser) {
+                        foundUser.secrets.push(submittedSecret);
+                        foundUser.save(function (err) {
+                            if (!err) {
+                                res.redirect("/secrets");
+                            }
+                        });
                     }
-                });
-            } else if (foundDoc) {
-                foundDoc.secrets.push(submittedSecret);
-                foundDoc.save();
-                res.redirect("/secrets");
+                }
             }
-        });
+        );
     });
 
 
