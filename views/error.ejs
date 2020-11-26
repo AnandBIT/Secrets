@@ -1,27 +1,29 @@
 <%- include('partials/header') %>
 
-    <div class="jumbotron text-center">
-        <div class="container">
-            <h1 class="font-weight-light mb-4"><%= message %></h1>
-            <p class="redirection-text py-2">Redirecting back to the Registration page in <span class="timer">5</span>s.</p>
-        </div>
+<div class="jumbotron text-center">
+    <div class="container">
+        <h1 class="font-weight-light mb-4"><%= message %></h1>
+        <p class="redirection-text py-2">Redirecting back to the Registration page in <span class="timer">5</span>s.</p>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            setTimeout(function () {
-                window.location.pathname = "/register";
-            }, 7000);
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            window.location.pathname = "/register";
+        }, 7000);
 
-            let timeLeft = 4;
+        let timeLeft = 4;
 
-            setTimeout(function () {
-                setInterval(function () {
+        setTimeout(function () {
+            setInterval(function () {
+                if (timeLeft >= 0) {
                     document.querySelector(".timer").textContent = timeLeft;
                     timeLeft--;
-                }, 1000);
-            }, 1500);
-        })
-    </script>
+                }
+            }, 1000);
+        }, 1500);
+    });
+</script>
 
 <%- include('partials/footer') %>
