@@ -6,19 +6,22 @@
             <p class="redirection-text py-2">Redirecting back to the Registration page in <span class="timer">5</span>s.</p>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        setTimeout(function () {
-            window.location.pathname = "/register";
-        }, 7000);
+        $(document).ready(function () {
+            setTimeout(function () {
+                window.location.pathname = "/register";
+            }, 7000);
 
-        let timeLeft = 4;
+            let timeLeft = 4;
 
-        setTimeout(function () {
-            setInterval(function () {
-                document.querySelector(".timer").textContent = timeLeft;
-                timeLeft--;
-            }, 1000);
-        }, 1500);
+            setTimeout(function () {
+                setInterval(function () {
+                    document.querySelector(".timer").textContent = timeLeft;
+                    timeLeft--;
+                }, 1000);
+            }, 1500);
+        })
     </script>
 
 <%- include('partials/footer') %>
