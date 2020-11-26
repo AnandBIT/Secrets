@@ -11,14 +11,14 @@
             window.location.pathname = "/register";
         }, 7000);
 
-        let timeLeft = 6;
+        let timeLeft = 4;
 
         setTimeout(function () {
             setInterval(function () {
                 document.querySelector(".timer").textContent = timeLeft;
                 timeLeft--;
             }, 1000);
-        }, 1000);
+        }, 1500);
     </script>
 
 <%- include('partials/footer') %>
