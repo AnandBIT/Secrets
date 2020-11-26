@@ -9,16 +9,16 @@
     <script>
         setTimeout(function () {
             window.location.pathname = "/register";
-        }, 5500);
+        }, 7000);
 
-        let timeLeft = 4;
+        let timeLeft = 6;
 
         setTimeout(function () {
             setInterval(function () {
                 document.querySelector(".timer").textContent = timeLeft;
                 timeLeft--;
             }, 1000);
-        }, 200);
+        }, 1000);
     </script>
 
 <%- include('partials/footer') %>
